@@ -4,8 +4,8 @@ const express = require('express');
 const http = require('http');
 var cors = require('cors');
 
-const hostname = process.env.HOST ?? '127.0.0.1';
-const port = process.env.PORT ?? 3001;
+const hostname = process.env.HOST ? process.env.HOST : '127.0.0.1';
+const port = process.env.PORT ? process.env.PORT : 3001;
 let router = require('./router');
 const data = require('./data/Scoreboards.js');
 var app = express();

@@ -1,6 +1,6 @@
 'use strict';
 
-const env = process.env.NODE_ENV ?? 'dev';
+const env = process.env.NODE_ENV ? process.env.NODE_ENV : 'dev';
 const axios = require('axios');
 const baseUrl = env === 'dev' ? 'http://localhost:8000' : 'https://domingoasdez.com/';
 
