@@ -22,7 +22,7 @@ function Match() {
             } catch (err) {
                 res.status(500).send({
                     success: false,
-                    error: err.message ?? "Não foi possível obter a lista de jogos disponíveis"
+                    error: err.message ? err.message : "Não foi possível obter a lista de jogos disponíveis"
                 })
             }
         })

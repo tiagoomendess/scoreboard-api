@@ -26,7 +26,7 @@ function Scoreboard() {
             } catch (err) {
                 res.status(500).send({
                     success: false,
-                    error: err.message ?? "Cannot create new scoreboard"
+                    error: err.message ? err.message : "Cannot create new scoreboard"
                 })
             }
         });

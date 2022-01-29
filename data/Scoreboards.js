@@ -10,13 +10,13 @@ const addNew = (object) => {
 
     let newItem = {
         code: random,
-        homeEmblem: object.homeEmblem ?? "",
-        awayEmblem: object.awayEmblem ?? "",
+        homeEmblem: object.homeEmblem ? object.homeEmblem : "",
+        awayEmblem: object.awayEmblem ? object.awayEmblem  : "",
         matchId: parseInt(object.matchId),
         homeScore: 0,
         awayScore: 0,
-        isPaused: object.isPaused ?? false,
-        isFinished: object.isFinished ?? false,
+        isPaused: object.isPaused ? object.isPaused : false,
+        isFinished: object.isFinished ? object.isFinished : false,
         timerStart: null,
         timerPausedAt: new Date().getTime(),
         createdAt: new Date(),
