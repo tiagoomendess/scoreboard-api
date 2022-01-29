@@ -1,7 +1,8 @@
 'use strict';
 
+const env = process.env.NODE_ENV ?? 'dev';
 const axios = require('axios');
-const baseUrl = 'http://localhost:8000';
+const baseUrl = env === 'dev' ? 'http://localhost:8000' : 'https://domingoasdez.com/';
 
 const getGames = async () => {
     try {
