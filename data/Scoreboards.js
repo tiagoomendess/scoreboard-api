@@ -6,7 +6,7 @@ const addNew = (object) => {
     let random;
     do {
         random = Math.floor(1000 + Math.random() * 9000);
-    } while (list.find(x => x.code === random));
+    } while (get(random) !== undefined);
 
     let newItem = {
         code: random,
@@ -27,31 +27,23 @@ const addNew = (object) => {
 }
 
 const get = (code) => {
-    for (let i = 0; i < list.length; i++) {
-        if (list[i].code === code) {
-            return list[i];
-        }
-    }
-
-    return undefined;
+    return list.find(item => item.code === code);
 }
 
 const update = (code, object) => {
-    for (let i = 0; i < list.length; i++) {
-        if (list[i].code === code) {
-            let toUpdate = list[i]
-            toUpdate.homeScore = parseInt(object.homeScore)
-            toUpdate.awayScore = parseInt(object.awayScore)
-            toUpdate.isPaused = object.isPaused
-            toUpdate.isFinished = object.isFinished
-            toUpdate.timerStart = object.timerStart
-            toUpdate.timerPausedAt = object.timerPausedAt
-            list[i] = toUpdate;
-            return true;
-        }
+    const toUpdate = get(code);
+    if (toUpdate === undefined) {
+        return false;
     }
 
-    return false;
+    toUpdate.homeScore = parseInt(object.homeScore)
+    toUpdate.awayScore = parseInt(object.awayScore)
+    toUpdate.isPaused = object.isPaused
+    toUpdate.isFinished = object.isFinished
+    toUpdate.timerStart = object.timerStart
+    toUpdate.timerPausedAt = object.timerPausedAt
+
+    return true;
 }
 
 const destroy = (code) => {
