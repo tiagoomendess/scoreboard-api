@@ -65,7 +65,14 @@ const update = (code, object) => {
         }
     }
 
-    return false;
+    toUpdate.homeScore = parseInt(object.homeScore)
+    toUpdate.awayScore = parseInt(object.awayScore)
+    toUpdate.isPaused = object.isPaused
+    toUpdate.isFinished = object.isFinished
+    toUpdate.timerStart = object.timerStart
+    toUpdate.timerPausedAt = object.timerPausedAt
+
+    return true;
 }
 
 const destroy = (code) => {
