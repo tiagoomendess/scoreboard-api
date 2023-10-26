@@ -3,7 +3,6 @@
 const bodyParser = require('body-parser');
 const express = require('express');
 const data = require('../data/Scoreboards.js');
-const axios = require('axios');
 const domingoasdez = require("../gateway/domingoasdez.js");
 
 function Scoreboard() {
@@ -31,7 +30,16 @@ function Scoreboard() {
             }
         });
 
-    router.route("/:id")
+    router.route("/reserve")
+        .get((req, res) => {
+            console.log("GET /scoreboards/reserve");
+            res.send({
+                success: true,
+                code: data.getReservedSpot()
+            });
+        });
+
+    router.route("/:id(\\d+)$")
         .get((req, res) => {
             console.log("GET /scoreboards/" + req.params.id);
             let result = data.get(parseInt(req.params.id))
@@ -47,11 +55,30 @@ function Scoreboard() {
         .put((req, res) => {
             console.log("PUT /scoreboards");
             let result = data.update(parseInt(req.params.id), req.body);
+
+            // Try to update website
+            domingoasdez.updateGameScore(req.body.matchId, req.body.homeScore, req.body.awayScore)
+                .then(() => {
+                    console.log(`Updated score on Domingo às Dez with ${req.body.homeScore} - ${req.body.awayScore}`)
+                })
+                .catch((err) => {
+                    console.log(`Could not update score on Domingo às Dez: ${err}`)
+                });
+
             res.send({
                 success: result,
                 updated: req.body
             });
         })
+        .delete((req, res) => {
+            console.log("DELETE /scoreboards/" + req.params.id);
+            let result = data.destroy(parseInt(req.params.id));
+            res.send({
+                success: result
+            });
+        });
+
+
 
     return router;
 }

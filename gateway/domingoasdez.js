@@ -1,8 +1,8 @@
 'use strict';
 
-const env = process.env.NODE_ENV ? process.env.NODE_ENV : 'dev';
 const axios = require('axios');
-const baseUrl = env === 'dev' ? 'http://localhost:8000' : 'https://domingoasdez.com/';
+const config = require('../config');
+const baseUrl = config.domingo_as_dez_base_url
 
 const getGames = async () => {
     try {
@@ -30,12 +30,43 @@ const getGame = async (matchId) => {
 
         return match;
     } catch (err) {
-        console.error(err)
+        console.error("Error: ", err)
         throw new Error("Não foi possível obter informações do jogo através do Domingo às Dez");
+    }
+}
+
+const updateGameScore = async (matchId, homeScore, awayScore) => {
+    try {
+        let body = {
+            home_score: homeScore,
+            away_score: awayScore
+        }
+
+        let response = await axios.put(`${baseUrl}/api/games/${matchId}/scoreboard-updated`, body);
+
+        return response.data;
+    } catch (err) {
+        if (err.response) {
+            let response = err.response;
+            let errorMsg = response.data?.message ? response.data.message : "Erro desconhecido";
+
+            switch (response.status) {
+                case 404:
+                    throw new Error("Jogo não encontrado");
+                case 400:
+                    throw new Error(errorMsg);
+                default:
+                    throw new Error(errorMsg);
+            }
+        }
+
+        console.error("Unknown Error Calling Domingo às Dez: ", err.message ? err.message : err)
+        throw new Error("Não foi possível contactar Domingo às Dez");
     }
 }
 
 module.exports = {
     getGames: getGames,
-    getGame: getGame
+    getGame: getGame,
+    updateGameScore: updateGameScore
 }

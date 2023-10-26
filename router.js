@@ -8,8 +8,8 @@ let Match = require('./server/match');
 function Initialize() {
   let api = express();
   api.use('/', Index());
-  api.use('/scoreboards', Scoreboard());
   api.use('/matches', Match())
+  api.use('/scoreboards', Scoreboard());
 
   return api;
 }

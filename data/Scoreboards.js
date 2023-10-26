@@ -1,15 +1,16 @@
 'use strict';
 
 const list = []
+const reserved = []
 
 const addNew = (object) => {
     let random;
     do {
         random = Math.floor(1000 + Math.random() * 9000);
-    } while (list.find(x => x.code === random));
+    } while (list.find(x => x.code === random) || reserved.find(x => x.code === random));
 
     let newItem = {
-        code: random,
+        code: object.code ? object.code : random,
         homeEmblem: object.homeEmblem ? object.homeEmblem : "",
         awayEmblem: object.awayEmblem ? object.awayEmblem  : "",
         matchId: parseInt(object.matchId),
@@ -20,7 +21,9 @@ const addNew = (object) => {
         timerStart: null,
         timerPausedAt: new Date().getTime(),
         createdAt: new Date(),
+        lastUpdatedAt: new Date()
     }
+
     list.push(newItem);
 
     return newItem
@@ -28,7 +31,7 @@ const addNew = (object) => {
 
 const get = (code) => {
     for (let i = 0; i < list.length; i++) {
-        if (list[i].code === code) {
+        if (list[i].code == code) {
             return list[i];
         }
     }
@@ -47,6 +50,17 @@ const update = (code, object) => {
             toUpdate.timerStart = object.timerStart
             toUpdate.timerPausedAt = object.timerPausedAt
             list[i] = toUpdate;
+
+            if (object.homeEmblem) {
+                toUpdate.homeEmblem = object.homeEmblem
+            }
+
+            if (object.awayEmblem) {
+                toUpdate.awayEmblem = object.awayEmblem
+            }
+
+            toUpdate.lastUpdatedAt = new Date()
+
             return true;
         }
     }
@@ -65,9 +79,19 @@ const destroy = (code) => {
     return false;
 }
 
+const getReservedSpot = () => {
+    let random;
+    do {
+        random = Math.floor(1000 + Math.random() * 9000);
+    } while (list.find(x => x.code === random) || reserved.find(x => x.code === random));
+
+    return random;
+}
+
 module.exports = {
     addNew: addNew,
     get: get,
     update: update,
-    destroy: destroy
+    destroy: destroy,
+    getReservedSpot: getReservedSpot
 }
