@@ -76,21 +76,30 @@ const update = (code, object) => {
 }
 
 const destroy = (code) => {
+    let found = false;
     for (let i = 0; i < list.length; i++) {
         if (list[i].code === code) {
             list.splice(i, 1);
-            return true;
+            found = true;
         }
     }
 
-    return false;
+    for (let i = 0; i < reserved.length; i++) {
+        if (reserved[i] === code) {
+            reserved.splice(i, 1);
+        }
+    }
+
+    return found;
 }
 
 const getReservedSpot = () => {
     let random;
     do {
         random = Math.floor(1000 + Math.random() * 9000);
-    } while (list.find(x => x.code === random) || reserved.find(x => x.code === random));
+    } while (list.find(x => x.code === random) || reserved.find(x => x === random));
+
+    reserved.push(random);
 
     return random;
 }
