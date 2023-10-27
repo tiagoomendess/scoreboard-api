@@ -42,7 +42,11 @@ const updateGameScore = async (matchId, homeScore, awayScore) => {
             away_score: awayScore
         }
 
-        let response = await axios.put(`${baseUrl}/api/games/${matchId}/scoreboard-updated`, body);
+        let response = await axios.put(`${baseUrl}/api/games/${matchId}/scoreboard-updated`, body, {
+            headers: {
+                'Authorization': process.env.DOMINGO_AS_DEZ_API_KEY || 'nothing',
+            }
+        });
 
         return response.data;
     } catch (err) {
