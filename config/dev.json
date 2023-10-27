@@ -1,4 +1,4 @@
 {
     "environment": "local",
-    "domingo_as_dez_base_url": "http://localhost:8000"
+    "domingo_as_dez_base_url": "http://127.0.0.1:8000"
 }
