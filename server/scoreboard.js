@@ -53,7 +53,7 @@ function Scoreboard() {
                 });
         })
         .put((req, res) => {
-            console.log("PUT /scoreboards");
+            console.log(`PUT /scoreboards/${req.params.id}`);
             let result = data.update(parseInt(req.params.id), req.body);
 
             // Try to update website

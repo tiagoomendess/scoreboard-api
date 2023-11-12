@@ -55,6 +55,8 @@ const updateGameScore = async (matchId, homeScore, awayScore) => {
             let errorMsg = response.data?.message ? response.data.message : "Erro desconhecido";
 
             switch (response.status) {
+                case 304:
+                    throw new Error("Resultado é o mesmo, não precisa de atualização");
                 case 404:
                     throw new Error("Jogo não encontrado");
                 case 400:
