@@ -21,7 +21,8 @@ const addNew = (object) => {
         timerStart: null,
         timerPausedAt: new Date().getTime(),
         createdAt: new Date(),
-        lastUpdatedAt: new Date()
+        lastUpdatedAt: new Date(),
+        uuid: object.uuid
     }
 
     list.push(newItem);

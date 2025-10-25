@@ -57,7 +57,7 @@ function Scoreboard() {
             let result = data.update(parseInt(req.params.id), req.body);
 
             // Try to update website
-            domingoasdez.updateGameScore(req.body.matchId, req.body.homeScore, req.body.awayScore)
+            domingoasdez.updateGameScore(req.body.matchId, req.body.homeScore, req.body.awayScore, req.body.uuid)
                 .then(() => {
                     console.log(`Updated score on Domingo às Dez for match ${req.body.matchId} with ${req.body.homeScore}-${req.body.awayScore}`)
                 })

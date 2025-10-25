@@ -35,11 +35,12 @@ const getGame = async (matchId) => {
     }
 }
 
-const updateGameScore = async (matchId, homeScore, awayScore) => {
+const updateGameScore = async (matchId, homeScore, awayScore, uuid = null) => {
     try {
         let body = {
             home_score: homeScore,
-            away_score: awayScore
+            away_score: awayScore,
+            uuid: uuid
         }
 
         let response = await axios.put(`${baseUrl}/api/games/${matchId}/scoreboard-updated`, body, {
